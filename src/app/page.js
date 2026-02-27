@@ -44,9 +44,9 @@ export default function Home() {
           CORO CATÓLICO
         </p>
 
-        <button className="mt-10 px-8 py-3 border border-yellow-400 text-yellow-600 rounded-full hover:bg-yellow-100 transition">
-          Ver Cantos
-        </button>
+        <a href="/cantos">
+         <button>Ver Cantos</button>
+        </a>
         {/* Sección de PDFs */}
 <section className="relative mt-32 px-10 pb-20">
   <h2 className="text-4xl text-center font-semibold mb-12 text-gray-800">
