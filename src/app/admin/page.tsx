@@ -1,100 +1,169 @@
 "use client"
 
 import { useState } from "react"
-import { supabase } from "../../lib/supabase"
+import { createClient } from "@supabase/supabase-js"
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
 
 export default function AdminPage() {
-  const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState("")
   const [category, setCategory] = useState("")
-  const [uploading, setUploading] = useState(false)
+  const [file, setFile] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleUpload = async () => {
-    if (!file || !title || !category) {
-      alert("Completa todos los campos")
-      return
-    }
+  const handleUpload = async (e) => {
+    e.preventDefault()
+    if (!file) return alert("Selecciona un PDF")
 
-    setUploading(true)
+    setLoading(true)
 
     const fileName = `pdf-${Date.now()}.pdf`
 
-    // 1️⃣ Subir archivo
-    const { data, error } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from("pdfs")
       .upload(fileName, file)
 
-    if (error) {
+    if (uploadError) {
       alert("Error al subir PDF")
-      console.error(error)
-      setUploading(false)
+      setLoading(false)
       return
     }
 
-    // 2️⃣ Obtener URL pública
-    const { data: publicUrlData } = supabase.storage
-      .from("pdfs")
-      .getPublicUrl(fileName)
+    const pdfUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/pdfs/${fileName}`
 
-    const pdfUrl = publicUrlData.publicUrl
+    await supabase.from("songs").insert([
+      { title, category, pdf_url: pdfUrl },
+    ])
 
-    // 3️⃣ Guardar en base de datos
-    const { error: dbError } = await supabase
-      .from("songs")
-      .insert([
-        {
-          title,
-          category,
-          pdf_url: pdfUrl,
-        },
-      ])
-
-    if (dbError) {
-      alert("Error guardando en base de datos")
-      console.error(dbError)
-    } else {
-      alert("Canción subida correctamente 🎉")
-      setTitle("")
-      setCategory("")
-      setFile(null)
-    }
-
-    setUploading(false)
+    alert("Canto agregado ✨")
+    setTitle("")
+    setCategory("")
+    setFile(null)
+    setLoading(false)
   }
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>Panel Admin - Subir Canción</h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(circle at top, #fdf4ff 0%, #e9d5ff 40%, #f3e8ff 100%)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "40px 20px",
+        fontFamily: "Georgia, serif",
+      }}
+    >
+      <div
+        style={{
+          background: "rgba(255,255,255,0.75)",
+          backdropFilter: "blur(12px)",
+          padding: "40px",
+          borderRadius: "30px",
+          width: "100%",
+          maxWidth: "450px",
+          boxShadow: "0 20px 40px rgba(168,85,247,0.2)",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            color: "#5b3e96",
+            marginBottom: "30px",
+            fontSize: "32px",
+          }}
+        >
+          ✨ Panel Admin ✨
+        </h1>
 
-      <input
-        type="text"
-        placeholder="Nombre de la canción"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        <form onSubmit={handleUpload} style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+          <input
+            type="text"
+            placeholder="Título del canto"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            style={inputStyle}
+          />
 
-      <br /><br />
+          <input
+            type="text"
+            placeholder="Categoría"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+            style={inputStyle}
+          />
 
-      <input
-        type="text"
-        placeholder="Categoría"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      />
+<div style={{ textAlign: "center" }}>
+  <label
+    style={{
+      display: "inline-block",
+      padding: "12px 22px",
+      background: "linear-gradient(90deg, #e9d5ff, #f3e8ff)",
+      borderRadius: "25px",
+      cursor: "pointer",
+      color: "#5b3e96",
+      fontWeight: "500",
+      boxShadow: "0 8px 20px rgba(168,85,247,0.15)",
+      transition: "0.3s",
+    }}
+  >
+    📎 Seleccionar PDF
+    <input
+      type="file"
+      accept="application/pdf"
+      onChange={(e) => setFile(e.target.files[0])}
+      required
+      style={{ display: "none" }}
+    />
+  </label>
 
-      <br /><br />
+  {file && (
+    <p
+      style={{
+        marginTop: "12px",
+        fontSize: "14px",
+        color: "#7c6bb3",
+      }}
+    >
+      📄 {file.name}
+    </p>
+  )}
+</div>
 
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={(e) => setFile(e.target.files?.[0] || null)}
-      />
-
-      <br /><br />
-
-      <button onClick={handleUpload} disabled={uploading}>
-        {uploading ? "Subiendo..." : "Subir Canción"}
-      </button>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              padding: "12px",
+              background:
+                "linear-gradient(90deg, #c084fc, #a78bfa, #f0abfc)",
+              color: "white",
+              border: "none",
+              borderRadius: "25px",
+              fontSize: "16px",
+              cursor: "pointer",
+              boxShadow: "0 10px 25px rgba(168,85,247,0.3)",
+              transition: "0.3s",
+            }}
+          >
+            {loading ? "Subiendo..." : "Agregar Canto"}
+          </button>
+        </form>
+      </div>
     </div>
   )
+}
+
+const inputStyle = {
+  padding: "12px 16px",
+  borderRadius: "20px",
+  border: "1px solid #e9d5ff",
+  outline: "none",
+  fontSize: "14px",
 }
