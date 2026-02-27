@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@supabase/supabase-js"
 
+
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -11,6 +13,8 @@ const supabase = createClient(
 export default function CantosPage() {
   const [songs, setSongs] = useState<any[]>([])
   const [search, setSearch] = useState("")
+  const [selectedSong, setSelectedSong] = useState(null)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -87,57 +91,108 @@ export default function CantosPage() {
               background: "rgba(255,255,255,0.75)",
               backdropFilter: "blur(12px)",
               padding: "30px",
+              textAlign:"center",
               borderRadius: "24px",
               boxShadow: "0 15px 35px rgba(120, 100, 180, 0.15)",
+              
             }}
           >
             <h2
-              style={{
-                marginBottom: "12px",
-                fontSize: "22px",
-                color: "#3f3566",
-              }}
+              className="text-xl font-semibold mb-4"
             >
               {song.title}
             </h2>
 
             <span
-              style={{
-                display: "inline-block",
-                background: "linear-gradient(90deg, #e9d5ff, #fbcfe8)",
-                padding: "6px 14px",
-                borderRadius: "20px",
-                fontSize: "14px",
-                color: "#4b3f72",
-                marginBottom: "18px",
-              }}
+             className="text-gray-600 mb-6"
             >
               {song.category}
             </span>
 
             <div>
-              <a
-                href={song.pdf_url}
-                target="_blank"
-                style={{
-                  display: "inline-block",
-                  marginTop: "15px",
-                  padding: "10px 20px",
-                  background:
-                    "linear-gradient(90deg, #c084fc, #a78bfa, #f0abfc)",
-                  color: "white",
-                  borderRadius: "10px",
-                  textDecoration: "none",
-                  fontWeight: "500",
-                  boxShadow: "0 8px 20px rgba(168, 85, 247, 0.3)",
-                }}
-              >
-                Ver PDF
-              </a>
+            <button
+  onClick={() => {
+    setSelectedSong(song)
+    setShowModal(true)
+  }}
+  className="inline-block px-6 py-2 border border-purple-400 text-purple-600 rounded-full hover:bg-purple-900/30 transition"
+  
+>
+  Descargar
+</button>
             </div>
           </div>
         ))}
       </div>
+      {showModal && (
+  <div className="fixed inset-0 bg-purple-900/30 backdrop-blur-md flex items-center justify-center z-50 transition-all duration-300">
+
+    <div className="relative bg-white/80 backdrop-blur-xl border border-white/40 rounded-3xl p-10 max-w-md w-[90%] text-center shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+
+      {/* Botón cerrar */}
+      <button
+       onClick={() => setShowModal(false)}
+        className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl"
+      >
+        ✕
+      </button>
+
+      <div className="relative mb-6">
+
+{/* Lluvia divina */}
+<div className="divine-rain" style={{ left: "45%", animationDelay: "0s" }}></div>
+<div className="divine-rain" style={{ left: "50%", animationDelay: "0.5s" }}></div>
+<div className="divine-rain" style={{ left: "55%", animationDelay: "1s" }}></div>
+
+      </div>
+
+      <h3 className="text-2xl font-light tracking-wide text-gray-800 mb-4">
+        Descarga con Amor
+      </h3>
+
+      <p className="text-gray-600 text-sm leading-relaxed mb-8">
+        Puedes descargar este canto gratuitamente.
+        <br />
+        Si deseas apoyar este ministerio con un donativo voluntario,
+        será una bendición para seguir compartiendo música.
+      </p>
+
+      <div className="flex flex-col gap-4">
+
+        <a
+        href={selectedSong?.pdf_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        
+          className="px-6 py-3 rounded-full border border-purple-300 text-purple-700 hover:bg-purple-50 transition-all duration-300"
+        >
+          Descargar Gratis
+        </a>
+
+        <button
+  onClick={async () => {
+    
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+    });
+    
+    const data = await res.json();
+    window.location.href = data.url;
+  }}
+  className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-300 to-yellow-400 text-black font-medium hover:scale-105 transition-transform duration-300 shadow-md"
+>
+  Hacer Donativo
+</button>
+
+      </div>
+
+      <p className="text-xs text-gray-400 mt-6">
+        Gracias por apoyar este proyecto 🙏
+      </p>
+
+    </div>
+  </div>
+)}
 
       {filteredSongs.length === 0 && (
         <p style={{ textAlign: "center", marginTop: "40px", color: "#6b5ca5" }}>

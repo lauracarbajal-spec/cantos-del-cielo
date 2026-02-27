@@ -47,6 +47,9 @@ export default function Home() {
         <a href="/cantos">
          <button>Ver Cantos</button>
         </a>
+
+
+        
         {/* Sección de PDFs */}
 <section className="relative mt-32 px-10 pb-20">
   <h2 className="text-4xl text-center font-semibold mb-12 text-gray-800">
@@ -146,7 +149,10 @@ export default function Home() {
       <div className="flex flex-col gap-4">
 
         <a
-          href="/pdfs/canto-ejemplo.pdf"
+        href={selectedSong?.pdf_url}
+        target="_blank"
+        rel="noopener noreferrer"
+         
           className="px-6 py-3 rounded-full border border-purple-300 text-purple-700 hover:bg-purple-50 transition-all duration-300"
         >
           Descargar Gratis
