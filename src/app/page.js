@@ -1,7 +1,39 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+  );
+  
+  
+  const [songs, setSongs] = useState([]);
+  const [selectedSong, setSelectedSong] = useState(null);
+  useEffect(() => {
+    fetchSongs();
+  }, []);
+
+  async function fetchSongs() {
+    const { data, error } = await supabase
+      .from("songs")
+      .select("*")
+      .order("category", { ascending: true })
+      .order("title", { ascending: true });
+
+    if (!error && data) {
+      const firstByCategory = {};
+
+data.forEach((song) => {
+        if (!firstByCategory[song.category]) {
+          firstByCategory[song.category] = song;
+        }
+      });
+
+      setSongs(Object.values(firstByCategory));
+    }
+  }
   return (
     <main className="relative min-h-screen bg-white flex items-center justify-center overflow-hidden">
 
@@ -44,9 +76,18 @@ export default function Home() {
           CORO CATÓLICO
         </p>
 
-        <a href="/cantos">
-         <button>Ver Cantos</button>
-        </a>
+        <a
+  href="/cantos"
+  className="inline-block mt-8 px-10 py-4 text-lg font-medium tracking-wide
+  rounded-full
+  bg-gradient-to-r from-purple-400 to-purple-500
+  text-white
+  shadow-lg shadow-purple-200
+  hover:scale-105 hover:shadow-xl
+  transition-all duration-300"
+>
+  Ver Cantos
+</a>
 
 
         
@@ -58,30 +99,32 @@ export default function Home() {
 
   <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
 
-    {/* Tarjeta PDF */}
-    <div className="bg-white shadow-lg rounded-2xl p-6 text-center border border-purple-100">
-      <h3 className="text-xl font-semibold mb-4">Canto de Entrada</h3>
-      <p className="text-gray-600 mb-6">Partitura para coro</p>
-      <button
-  onClick={() => setOpen(true)}
-  className="inline-block px-6 py-2 border border-yellow-400 text-yellow-600 rounded-full hover:bg-yellow-100 transition"
->
-  Descargar
-</button>
-    </div>
+  {songs.map((song) => (
+    <div
+      key={song.id}
+      className="bg-white shadow-lg rounded-2xl p-6 text-center border border-purple-100"
+    >
+      <h3 className="text-xl font-semibold mb-4">
+        {song.category}
+      </h3>
 
-    <div className="bg-white shadow-lg rounded-2xl p-6 text-center border border-purple-100">
-      <h3 className="text-xl font-semibold mb-4">Canto de Comunión</h3>
-      <p className="text-gray-600 mb-6">Arreglo coral</p>
-      <button
-  onClick={() => setOpen(true)}
-  className="inline-block px-6 py-2 border border-yellow-400 text-yellow-600 rounded-full hover:bg-yellow-100 transition"
->
-  Descargar
-</button>
-    </div>
+      <p className="text-gray-600 mb-6">
+        {song.title}
+      </p>
 
-  </div>
+      <button
+        onClick={() => {
+          setSelectedSong(song);
+          setOpen(true);
+        }}
+        className="inline-block px-6 py-2 border border-purple-400 text-purple-600 rounded-full hover:bg-purple-100 transition"
+      >
+        Descargar
+      </button>
+    </div>
+  ))}
+
+</div>
 </section>
 {/* Sección Donativo Voluntario */}
 <section className="relative py-20 px-6 bg-gradient-to-b from-white to-purple-50 text-center">
@@ -105,7 +148,7 @@ export default function Home() {
     const data = await res.json();
     window.location.href = data.url;
   }}
-  className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-300 to-yellow-400 text-black font-medium hover:scale-105 transition-transform duration-300 shadow-md"
+  className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-300 to-blue-400 text-black font-medium hover:scale-105 transition-transform duration-300 shadow-md"
 >
   Hacer Donatiivo
 </button>
@@ -167,7 +210,7 @@ export default function Home() {
     const data = await res.json();
     window.location.href = data.url;
   }}
-  className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-300 to-yellow-400 text-black font-medium hover:scale-105 transition-transform duration-300 shadow-md"
+  className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-300 to-purple-400 text-black font-medium hover:scale-105 transition-transform duration-300 shadow-md"
 >
   Hacer Donativo
 </button>
