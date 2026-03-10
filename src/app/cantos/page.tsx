@@ -154,14 +154,14 @@ ${filter === cat ? "bg-white/30" : "bg-purple-100"}`}>
               {grouped[category].map((song: any) => (
                 <div
                   key={song.id}
-                  className="flex justify-between items-center
-bg-white/70 backdrop-blur-sm
-border border-purple-100
-rounded-2xl px-6 py-4
-shadow-sm hover:shadow-lg
-transition-all duration-300
-transform hover:scale-[1.02]">
-                  <span className="text-gray-700 tracking-wide">
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between
+                  gap-3
+                  bg-white
+                  border border-purple-100
+                  rounded-2xl px-5 py-4
+                  shadow-sm hover:shadow-lg
+                  transition-all duration-300">
+                  <span className="text-gray-800 tracking-wide break-words">
                     {song.title}
                   </span>
 
@@ -170,8 +170,7 @@ transform hover:scale-[1.02]">
                       setSelectedSong(song);
                       setOpen(true);
                     }}
-                    className="inline-block px-5 py-2 border border-purple-400 text-purple-600 rounded-full hover:bg-purple-100 transition"
-                  >
+                    className="self-start sm:self-auto px-4 py-2 text-sm border border-purple-400 text-purple-700 rounded-full hover:bg-purple-100 transition">
                     Descargar
                   </button>
                 </div>
