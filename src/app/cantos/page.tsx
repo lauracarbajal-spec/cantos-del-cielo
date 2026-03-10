@@ -1,4 +1,4 @@
-"use client";"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -10,8 +10,11 @@ const supabase = createClient(
 
 export default function Cantos() {
   const [songs, setSongs] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("Todos");
   const [open, setOpen] = useState(false);
   const [selectedSong, setSelectedSong] = useState<any>(null);
+ 
 
   useEffect(() => {
     fetchSongs();
@@ -28,23 +31,113 @@ export default function Cantos() {
   }
 
   // Agrupar por categoría
-  const grouped = songs.reduce((acc: any, song: any) => {
+  
+  const filteredSongs = songs.filter((song: any) => {
+
+    const matchSearch =
+    song.title.toLowerCase().includes(search.toLowerCase());
+    
+    const matchFilter =
+filter === "Todos" || song.category?.toLowerCase() === filter.toLowerCase();
+    
+    return matchSearch && matchFilter;
+    
+    });
+  const grouped = filteredSongs.reduce((acc: any, song: any) => {
     if (!acc[song.category]) acc[song.category] = [];
     acc[song.category].push(song);
     return acc;
   }, {});
 
+
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-white to-purple-50 px-6 py-20">
+   
+   <div className="max-w-6xl mx-auto flex items-center justify-between mb-16">
 
-      <h1 className="text-5xl font-light tracking-wide text-center text-gray-800 mb-16">
-        Cantos del Ministerio
-      </h1>
+<h1 className="text-4xl font-light tracking-wide text-gray-800">
+  Cantos del Ministerio
+</h1>
 
-      <div className="max-w-4xl mx-auto space-y-20">
+<div className="relative w-64">
 
-        {Object.keys(grouped).map((category) => (
-          <div key={category}>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="2"
+    d="M21 21l-4.35-4.35m1.85-5.65a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"
+  />
+</svg>
+
+<input
+  type="text"
+  placeholder="Buscar canto..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="w-full pl-10 pr-4 py-2 rounded-full
+  border border-purple-300
+  bg-white
+  shadow-sm
+  focus:outline-none focus:ring-2 focus:ring-purple-400"
+/>
+
+</div>
+
+</div>
+<div className="flex flex-wrap justify-center gap-3 mb-14">
+
+{["Todos","Entrada","Canto de entrada","Cantos de comunión","Misa"].map((cat) => {
+
+const count =
+cat === "Todos"
+? songs.length
+: songs.filter((s) => s.category === cat).length;
+
+return (
+
+<button
+key={cat}
+onClick={() => setFilter(cat)}
+className={`px-4 py-2 rounded-full border transition flex items-center gap-2
+${filter === cat
+? "bg-purple-500 text-white border-purple-500 shadow-md"
+: "border-purple-300 text-purple-600 hover:bg-purple-100"}`}
+>
+
+{cat}
+
+<span className={`text-xs px-2 py-0.5 rounded-full
+${filter === cat ? "bg-white/30" : "bg-purple-100"}`}>
+
+{count}
+
+</span>
+
+</button>
+
+);
+
+})}
+
+</div>
+<div className="max-w-4xl mx-auto space-y-20">
+
+{Object.keys(grouped).length === 0 && (
+  <p className="text-center text-gray-500 text-lg">
+    No se encontraron cantos
+  </p>
+)}
+
+{Object.keys(grouped).map((category) => (
+  <div key={category}>
 
             {/* Título categoría */}
             <div className="text-center mb-10">
@@ -53,14 +146,21 @@ export default function Cantos() {
               </h2>
               <div className="w-24 h-[1px] bg-purple-300 mx-auto mt-4"></div>
             </div>
+          
+
 
             {/* Lista de cantos */}
-            <div className="space-y-6">
+            <div className="space-y-6 transition-all duration-500">
               {grouped[category].map((song: any) => (
                 <div
                   key={song.id}
-                  className="flex justify-between items-center bg-white/70 backdrop-blur-sm border border-purple-100 rounded-2xl px-6 py-4 shadow-sm hover:shadow-md transition"
-                >
+                  className="flex justify-between items-center
+bg-white/70 backdrop-blur-sm
+border border-purple-100
+rounded-2xl px-6 py-4
+shadow-sm hover:shadow-lg
+transition-all duration-300
+transform hover:scale-[1.02]">
                   <span className="text-gray-700 tracking-wide">
                     {song.title}
                   </span>

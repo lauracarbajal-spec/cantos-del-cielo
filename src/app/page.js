@@ -1,4 +1,5 @@
 "use client";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 export default function Home() {
@@ -35,8 +36,8 @@ data.forEach((song) => {
     }
   }
   return (
-    <main className="relative min-h-screen bg-white flex items-center justify-center overflow-hidden">
-
+    <main className="min-h-screen flex flex-col bg-gradient-to-b from-white to-purple-50 px-6 py-20">
+<div className="flex-grow">
       {/* Nube superior izquierda */}
 <div className="cloud absolute -top-20 -left-20 w-[500px] h-[500px] bg-purple-200 rounded-full opacity-40 blur-3xl"></div>
 
@@ -61,7 +62,7 @@ data.forEach((song) => {
       {/* Contenido */}
       <div className="relative text-center p-10">
         <p className="tracking-widest text-gray-500 mb-4">
-          VOCES EN ARMONÍA
+        CORO CATÓLICO
         </p>
 
         <h1 className="text-6xl tracking-wide font-semibold text-gray-900 mb-4">
@@ -73,9 +74,38 @@ data.forEach((song) => {
         </p>
 
         <p className="tracking-[0.3em] text-gray-600 mt-6">
-          CORO CATÓLICO
+        Voces en armonía
         </p>
+        <section className="max-w-6xl mx-auto mt-20 mb-20 px-6 grid md:grid-cols-2 gap-12 items-center">
 
+{/* Imagen del coro */}
+<div className="rounded-3xl overflow-hidden shadow-xl">
+  <img
+    src="/coro.jpg"
+    alt="Coro Voces en Armonía"
+    className="w-full h-full object-cover"
+  />
+</div>
+
+{/* Texto */}
+<div>
+
+  <h2 className="text-3xl font-light text-purple-700 mb-6 tracking-wide">
+    Quiénes Somos
+  </h2>
+
+  <p className="text-gray-600 leading-relaxed text-lg">
+  Somos Daniela y Nataly, y creamos Cantos del Cielo como un espacio para compartir música católica que ayude a las personas a acercarse a Dios.
+  </p>
+
+  <p className="text-gray-600 leading-relaxed text-lg mt-4">
+  Aquí encontrarás cantos con letra y acordes, pensados para quienes también sirven al Señor a través de la música en sus parroquias, grupos o momentos de oración.
+Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
+  </p>
+
+</div>
+
+</section>
         <a
   href="/cantos"
   className="inline-block mt-8 px-10 py-4 text-lg font-medium tracking-wide
@@ -134,9 +164,15 @@ data.forEach((song) => {
   </h2>
 
   <p className="max-w-2xl mx-auto text-gray-600 mb-8">
-    Todos los cantos pueden descargarse gratuitamente.  
-    Si deseas apoyar este proyecto y ayudarnos a seguir compartiendo música que eleva el alma,
-    puedes hacer un donativo voluntario.
+  Cada donativo, grande o pequeño, ayuda a que este proyecto continúe.
+Los donativos a
+Cantos del Cielo
+nos permiten seguir compartiendo música que acerque a más personas a Dios.
+Con tu apoyo podremos:
+• Colaborar con retiros y encuentros de jóvenes
+• Apoyar eventos parroquiales y momentos de oración
+• Crear y grabar nuevos cantos
+• Llevar esta música a más comunidades
   </p>
 
   <button
@@ -224,6 +260,101 @@ data.forEach((song) => {
     </div>
   </div>
 )}
+
+</div>
+
+<footer className="mt-32 bg-white border-t border-purple-200">
+
+  <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10 text-center md:text-left">
+
+    {/* Ministerio */}
+    <div>
+      <h3 className="text-xl text-purple-700 mb-4 font-light">
+        Voces en Armonía
+      </h3>
+
+      <p className="text-gray-600 leading-relaxed">
+        Ministerio dedicado a compartir música litúrgica para acompañar la
+        oración y las celebraciones de la Iglesia.
+      </p>
+    </div>
+
+    {/* Redes sociales */}
+    <div>
+      <h3 className="text-xl text-purple-700 mb-4 font-light">
+        Síguenos
+      </h3>
+
+      <div className="flex justify-center md:justify-start gap-6 text-gray-600">
+
+        <a
+          href="https://www.instagram.com/cantos.del.cielo?igsh=emdldzBmN2xtN3Jv&utm_source=qr"
+          target="_blank"
+          className="p-3 rounded-full bg-purple-100 hover:bg-purple-200 transition"
+          >
+          <Facebook className="w-5 h-5 text-purple-700" />
+          </a>
+
+        <a
+          href="https://www.instagram.com/cantos.del.cielo?igsh=emdldzBmN2xtN3Jv&utm_source=qr"
+          target="_blank"
+          className="p-3 rounded-full bg-purple-100 hover:bg-purple-200 transition"
+          >
+          <Instagram className="w-5 h-5 text-purple-700" />
+          </a>
+
+        <a
+    href="https://www.tiktok.com/@cantos.del.cielo"
+    target="_blank"
+className="p-3 rounded-full bg-purple-100 hover:bg-purple-200 transition"
+>
+<svg
+xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 24 24"
+className="w-5 h-5 fill-purple-700"
+>
+<path d="M12.5 2c.3 2.2 1.8 4 4 4.5v3.1c-1.4-.1-2.8-.6-4-1.4v6.4c0 3.5-2.8 6.4-6.4 6.4S-.3 18.1-.3 14.6s2.8-6.4 6.4-6.4c.3 0 .6 0 .9.1v3.2c-.3-.1-.6-.1-.9-.1-1.8 0-3.2 1.4-3.2 3.2S4.3 18 6.1 18s3.2-1.4 3.2-3.2V2h3.2z"/>
+</svg>
+  </a>
+
+
+        <a
+          href="https://www.youtube.com/@Cantosdelcielo-dn"
+          target="_blank"
+className="p-3 rounded-full bg-purple-100 hover:bg-purple-200 transition"
+>
+<Youtube className="w-5 h-5 text-purple-700" />
+</a>
+
+      </div>
+    </div>
+
+    {/* Frase */}
+    <div>
+      <h3 className="text-xl text-purple-700 mb-4 font-light">
+        Inspiración
+      </h3>
+
+      <p className="text-gray-600 italic">
+        "El que canta ora dos veces."
+      </p>
+
+      <p className="text-gray-400 text-sm mt-2">
+        — San Agustín
+      </p>
+    </div>
+
+  </div>
+
+  {/* Línea inferior */}
+  <div className="border-t border-purple-100 text-center py-6 text-gray-400 text-sm">
+
+    © {new Date().getFullYear()} Voces en Armonía — Ministerio de Música
+
+  </div>
+
+</footer>
+
     </main>
   );
 }
