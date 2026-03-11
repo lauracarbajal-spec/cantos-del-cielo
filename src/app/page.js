@@ -163,17 +163,40 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
     Apoya este Ministerio
   </h2>
 
-  <p className="max-w-2xl mx-auto text-gray-600 mb-8">
-  Cada donativo, grande o pequeño, ayuda a que este proyecto continúe.
-Los donativos a
-Cantos del Cielo
-nos permiten seguir compartiendo música que acerque a más personas a Dios.
+  <div className="max-w-2xl mx-auto text-gray-700 text-lg mb-8">
+
+<p className="mb-6 text-justify">
+Cada donativo, grande o pequeño, ayuda a que este proyecto continúe.
+Los donativos a <strong>Cantos del Cielo</strong> nos permiten seguir
+compartiendo música que acerque a más personas a Dios.
 Con tu apoyo podremos:
-• Colaborar con retiros y encuentros de jóvenes
-• Apoyar eventos parroquiales y momentos de oración
-• Crear y grabar nuevos cantos
-• Llevar esta música a más comunidades
-  </p>
+</p>
+
+<ul className="space-y-4 text-justify">
+
+  <li className="flex items-start gap-3">
+    <span className="text-purple-500 text-xl">✦</span>
+    <span>Colaborar con retiros y encuentros de jóvenes.</span>
+  </li>
+
+  <li className="flex items-start gap-3">
+    <span className="text-purple-500 text-xl">✦</span>
+    <span>Apoyar eventos parroquiales y momentos de oración.</span>
+  </li>
+
+  <li className="flex items-start gap-3">
+    <span className="text-purple-500 text-xl">✦</span>
+    <span>Crear y grabar nuevos cantos.</span>
+  </li>
+
+  <li className="flex items-start gap-3">
+    <span className="text-purple-500 text-xl">✦</span>
+    <span>Llevar esta música a más comunidades.</span>
+  </li>
+
+</ul>
+
+</div>
 
   <button
   onClick={async () => {

@@ -85,7 +85,7 @@ filter === "Todos" || song.category?.toLowerCase() === filter.toLowerCase();
   className="w-full pl-10 pr-4 py-2 rounded-full
 border border-purple-300
 bg-white
-text-gray-800
+text-gray-900
 placeholder-gray-400
 shadow-sm
 focus:outline-none focus:ring-2 focus:ring-purple-400"
