@@ -44,23 +44,31 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-6">
 
-          <input
-            type="email"
-            placeholder="Correo"
-            required
-            className="w-full border border-purple-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <input
+  type="email"
+  placeholder="Correo"
+  required
+  className="w-full border border-purple-200 rounded-xl px-4 py-3
+  bg-white
+  text-gray-800
+  placeholder-gray-400
+  focus:outline-none focus:ring-2 focus:ring-purple-300"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+/>
 
-          <input
-            type="password"
-            placeholder="Contraseña"
-            required
-            className="w-full border border-purple-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-300"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+<input
+  type="password"
+  placeholder="Contraseña"
+  required
+  className="w-full border border-purple-200 rounded-xl px-4 py-3
+  bg-white
+  text-gray-800
+  placeholder-gray-400
+  focus:outline-none focus:ring-2 focus:ring-purple-300"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
 
           <button
             type="submit"
