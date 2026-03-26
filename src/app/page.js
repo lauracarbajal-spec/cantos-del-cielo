@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
@@ -36,7 +37,7 @@ data.forEach((song) => {
     }
   }
   return (
-    <main className="relative min-h-screen flex flex-col bg-[#8799B6] px-6 py-20 overflow-hidden">
+    <main className="relative min-h-screen flex flex-col bg-[#8799B6] px-6 py-3 sm:py-2 overflow-hidden mt-24 sm:mt-32">
 
 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/20 pointer-events-none"></div>
 
@@ -62,35 +63,34 @@ data.forEach((song) => {
   <div className="divine-rain" style={{ left: "55%", animationDelay: "1s" }}></div>
 {/* Imagen del coro */}
 
-<div className="relative w-full h-[800px] rounded-3xl overflow-hidden ">
 
-  {/* Imagen */}
-  <img
+<div className="relative w-full h-64 sm:h-80 md:h-[500px] rounded-3xl overflow-hidden">
+  <Image
     src="/1-14.png"
-    alt="Coro Voces en Armonía"
-    className="w-full h-full object-cover"
+    alt="Coro"
+    fill
+    className="object-contain"
   />
-
-
 </div>
  
 
 </div>
 
      
-        <section className="max-w-6xl mx-auto mt-20 mb-20 px-6 grid md:grid-cols-2 gap-12 items-center">
+        <section className="max-w-6xl mx-auto mt-20 mb-20 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-center">
 
 {/* Imagen del coro */}
-<div className="relative w-full h-[500px] rounded-3xl overflow-hidden shadow-xl">
+<div className="relative w-full h-64 sm:h-80 md:h-[500px] rounded-3xl overflow-hidden">
 
-  {/* Imagen */}
-  <img
+  <Image
     src="/coro.jpg"
     alt="Coro Voces en Armonía"
-    className="w-full h-full object-cover"
+    fill
+    className="object-contain"
   />
 
 </div>
+
 
 {/* Texto */}
 <div>
@@ -115,9 +115,9 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
 
         
         {/* Sección de PDFs */}
-<section className="relative mt-32 px-10 pb-20">
+<section className="relative mt-32 px-4 sm:px-6 md:px-10 pb-20">
   
-<h2 className="text-4xl text-center font-semibold mb-12 text-white">
+<h2 className="text-3xl sm:text-4xl md:text-5xl text-center font-semibold mb-12 text-white">
     Cantos Disponibles
   </h2>
 
@@ -126,7 +126,7 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
   {songs.map((song) => (
    <div
    key={song.id}
-   className="glass card-hover p-6 text-center transition duration-300"
+   className="glass card-hover p-4 sm:p-6 text-center transition duration-300"
  >
    <h3 className="text-xl font-semibold mb-4 text-white drop-shadow-md">
      {song.category}
@@ -141,7 +141,7 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
        setSelectedSong(song);
        setOpen(true);
      }}
-     className="px-6 py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition"
+     className="px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition"
    >
      Descargar
    </button>
@@ -156,7 +156,7 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
 
         <a
   href="/cantos"
-  className="px-8 py-3 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition shadow-lg">
+  className="px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition shadow-lg">
   Ver todos los cantos
 </a>
 </div>
@@ -202,7 +202,7 @@ Con tu apoyo podremos:
 
 </div>
 
-  <button
+  <button className="btn"
   onClick={async () => {
     const res = await fetch("/api/create-checkout-session", {
       method: "POST",
@@ -211,7 +211,7 @@ Con tu apoyo podremos:
     const data = await res.json();
     window.location.href = data.url;
   }}
-  className="px-8 py-3 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition shadow-lg">
+  className="px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition shadow-lg">
   Hacer Donatiivo
 </button>
 
@@ -253,7 +253,7 @@ Con tu apoyo podremos:
 
       <div className="flex flex-col gap-4">
 
-        <a
+        <a className="btn"
         href={selectedSong?.pdf_url}
         target="_blank"
         rel="noopener noreferrer"

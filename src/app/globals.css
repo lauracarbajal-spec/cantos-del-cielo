@@ -18,6 +18,16 @@
     --foreground: #ededed;
   }
 }
+@media (hover: none) {
+  .card-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .card-hover::before {
+    display: none;
+  }
+}
 
 body {
   font-family: var(--font-inter);
@@ -35,6 +45,9 @@ h1, h2, h3 {
   font-family: var(--font-playfair);
   letter-spacing: 0.08em;
   font-weight: 500;
+}
+.btn {
+  @apply px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium;
 }
 
 /* Animación suave */
