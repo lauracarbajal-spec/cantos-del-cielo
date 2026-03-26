@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #8799B6;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -20,9 +20,37 @@
 }
 
 body {
-  background: var(--background);
+  font-family: var(--font-inter);
+  background: linear-gradient(
+    to bottom,
+    #8799B6,
+    #7a8fab,
+    #6f85a8
+  );
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-playfair);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* Animación suave */
+.fade-in {
+  animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 /* Movimiento suave de nubes */
 @keyframes floatCloud {
@@ -39,11 +67,13 @@ body {
 }
 
 .cloud {
-  animation: floatCloud 12s ease-in-out infinite;
+  animation: floatCloud 20s ease-in-out infinite;
+  opacity: 0.25;
 }
 
 .cloud-slow {
-  animation: floatCloud 18s ease-in-out infinite;
+  animation: floatCloud 30s ease-in-out infinite;
+  opacity: 0.2;
 }
 
 .glow-ray {
@@ -71,8 +101,61 @@ body {
   height: 40px;
   background: linear-gradient(
     to bottom,
-    rgba(255, 215, 0, 0.7),
+    rgba(255, 255, 255, 0.8),
     rgba(255, 255, 255, 0)
   );
   animation: divineRain 2.5s infinite ease-in-out;
+}
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+}
+.btn-premium {
+  background: white;
+  color: #5a6d8c;
+  border-radius: 9999px;
+  padding: 12px 24px;
+  font-weight: 500;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-premium:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+* {
+  transition: all 0.2s ease-in-out;
+}
+.card-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brillo elegante al pasar el mouse */
+.card-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Se activa el brillo */
+.card-hover:hover::before {
+  opacity: 1;
+}
+
+/* Elevación suave */
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
 }

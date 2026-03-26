@@ -1,11 +1,18 @@
+
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display, Inter } from "next/font/google";
 
 const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '600', '700']
-})
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-playfair",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,9 +40,9 @@ export default function RootLayout({ children }) {
     />
   </head>
 
-  <body>
-    {children}
-  </body>
+  <body className={`${playfair.variable} ${inter.variable} antialiased`}>
+  {children}
+</body>
 </html>
   );
 }

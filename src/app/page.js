@@ -62,7 +62,7 @@ data.forEach((song) => {
   <div className="divine-rain" style={{ left: "55%", animationDelay: "1s" }}></div>
 {/* Imagen del coro */}
 
-<div className="relative w-full h-[800px] rounded-3xl overflow-hidden shadow-xl">
+<div className="relative w-full h-[800px] rounded-3xl overflow-hidden ">
 
   {/* Imagen */}
   <img
@@ -124,28 +124,28 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
   <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
 
   {songs.map((song) => (
-    <div
-      key={song.id}
-      className="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-6 text-center border border-white/40 hover:scale-105 transition"
-    >
-      <h3 className="text-xl font-semibold mb-4">
-        {song.category}
-      </h3>
-
-      <p className="text-gray-600 mb-6">
-        {song.title}
-      </p>
-
-      <button
-        onClick={() => {
-          setSelectedSong(song);
-          setOpen(true);
-        }}
-        className="inline-block px-6 py-2 border-[#8799B6] text-[#5a6d8c]  rounded-full hover:bg-[#8799B6]/20 transition"
-      >
-        Descargar
-      </button>
-    </div>
+   <div
+   key={song.id}
+   className="glass card-hover p-6 text-center transition duration-300"
+ >
+   <h3 className="text-xl font-semibold mb-4 text-white drop-shadow-md">
+     {song.category}
+   </h3>
+ 
+   <p className="text-white/80 mb-6">
+     {song.title}
+   </p>
+ 
+   <button
+     onClick={() => {
+       setSelectedSong(song);
+       setOpen(true);
+     }}
+     className="px-6 py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition"
+   >
+     Descargar
+   </button>
+ </div>
     
   ))}
 
@@ -308,7 +308,7 @@ Con tu apoyo podremos:
     {/* Redes sociales */}
     <div>
       <h3 className="text-xl text-[#5a6d8c] mb-4 font-light">
-        Síguenos
+        Síguenos en:
       </h3>
 
       <div className="flex justify-center md:justify-start gap-6 text-gray-600">
@@ -372,13 +372,7 @@ className="p-3 rounded-full bg-white hover:bg-[#8799B6]/20 shadow-md hover:scale
     </div>
 
 
-  {/* Imagen */}
-  <img
-    src="/1-09.png"
-    alt="Coro Voces en Armonía"
-    className="w-full h-full object-cover"
-  />
-
+ 
 
   </div>
 
