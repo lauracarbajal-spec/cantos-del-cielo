@@ -23,6 +23,12 @@ const [editTitle, setEditTitle] = useState("");
 const [editCategory, setEditCategory] = useState("");
 const [editFile, setEditFile] = useState(null);
 
+type SongUpdate = {
+  title: string;
+  category: string;
+  pdf_url?: string;
+};
+
   function startEdit(song) {
     setEditingSong(song);
     setEditTitle(song.title);
@@ -32,7 +38,7 @@ const [editFile, setEditFile] = useState(null);
   async function updateSong() {
     if (!editingSong) return;
   
-    let updatedData = {
+    let updatedData: SongUpdate = {
       title: editTitle,
       category: editCategory,
     };
