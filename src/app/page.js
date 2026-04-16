@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { motion } from "framer-motion";
 export default function Home() {
   const [open, setOpen] = useState(false);
   const supabase = createClient(
@@ -46,30 +47,30 @@ data.forEach((song) => {
 <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white opacity-20 blur-3xl rounded-full"></div>
 <div className="flex-grow">
       {/* Nube superior izquierda */}
-<div className="cloud absolute -top-20 -left-20 w-[500px] h-[500px] bg-white opacity-20 rounded-full opacity-40 blur-3xl"></div>
+<div className="cloud absolute -top-20 -left-20 w-[500px] h-[500px] bg-white opacity-20 rounded-full opacity-40 blur-3xl pointer-events-none"></div>
 
 {/* Nube superior derecha */}
-<div className="cloud-slow absolute top-0 right-0 w-[400px] h-[400px] bg-white opacity-20 rounded-full opacity-40 blur-3xl"></div>
+<div className="cloud-slow absolute pointer-events-none top-0 right-0 w-[400px] h-[400px] bg-white opacity-20 rounded-full opacity-40 blur-3xl"></div>
 
 {/* Nube inferior */}
-<div className="cloud absolute bottom-0 left-1/3 w-[600px] h-[400px] bg-white opacity-10 rounded-full opacity-50 blur-3xl"></div>
+<div className="cloud absolute pointer-events-none bottom-0 left-1/3 w-[600px] h-[400px] bg-white opacity-10 rounded-full opacity-50 blur-3xl"></div>
 
 {/* Rayo tipo lluvia divina */}
-<div className="relative mb-6">
+<div className="relative mb-6 pointer-events-none">
 
   {/* Lluvia divina */}
-  <div className="divine-rain" style={{ left: "45%", animationDelay: "0s" }}></div>
-  <div className="divine-rain" style={{ left: "50%", animationDelay: "0.5s" }}></div>
-  <div className="divine-rain" style={{ left: "55%", animationDelay: "1s" }}></div>
+  <div className="divine-rain pointer-events-none" style={{ left: "45%", animationDelay: "0s" }}></div>
+  <div className="divine-rain pointer-events-none" style={{ left: "50%", animationDelay: "0.5s" }}></div>
+  <div className="divine-rain pointer-events-none" style={{ left: "55%", animationDelay: "1s" }}></div>
 {/* Imagen del coro */}
 
 
-<div className="relative w-full h-64 sm:h-80 md:h-[500px] rounded-3xl overflow-hidden">
+<div className="relative w-full h-64 sm:h-80 md:h-[500px] rounded-3xl overflow-hidden pointer-events-none">
   <Image
     src="/1-14.png"
     alt="Coro"
     fill
-    className="object-contain"
+    className="object-contain pointer-events-none"
   />
 </div>
  
@@ -137,14 +138,15 @@ Cada canto nace con cariño y con el deseo de elevar el corazón al cielo.
    </p>
  
    <button
-     onClick={() => {
-       setSelectedSong(song);
-       setOpen(true);
-     }}
-     className="px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition"
-   >
-     Descargar
-   </button>
+  onClick={() => {
+    console.log("click OK");
+    setSelectedSong(song);
+    setOpen(true);
+  }}
+  className="px-6 py-3 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition select-none"
+>
+  Descargar
+</button>
  </div>
     
   ))}
@@ -218,74 +220,65 @@ Con tu apoyo podremos:
 </section>
 
       </div>
-      {open && (
-  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+  {/* MODAL PREMIUM */}
+  {open && selectedSong && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
 
-    <div className="relative bg-white/70 backdrop-blur-2xl backdrop-blur-xl border border-white/40 rounded-3xl p-10 max-w-md w-[90%] text-center shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 max-w-md w-[90%] text-center shadow-2xl"
+          >
 
-      {/* Botón cerrar */}
-      <button
-        onClick={() => setOpen(false)}
-        className="absolute top-4 right-4 text-gray-400 hover:text-white/80 text-xl"
-      >
-        ✕
-      </button>
+            <button
+              onClick={() => setOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl"
+            >
+              ✕
+            </button>
 
-      <div className="relative mb-6">
+            <h3 className="text-2xl font-light text-[#5a6d8c] mb-4">
+              {selectedSong.title}
+            </h3>
 
-{/* Lluvia divina */}
-<div className="divine-rain" style={{ left: "45%", animationDelay: "0s" }}></div>
-<div className="divine-rain" style={{ left: "50%", animationDelay: "0.5s" }}></div>
-<div className="divine-rain" style={{ left: "55%", animationDelay: "1s" }}></div>
+            <p className="text-gray-600 text-sm mb-8">
+              Puedes descargar este canto gratuitamente.
+              Si deseas apoyar este ministerio, puedes hacer un donativo.
+            </p>
 
-      </div>
+            <div className="flex flex-col gap-4">
 
-      <h3 className="text-2xl font-light tracking-wide text-white mb-4">
-        Descarga con Amor
-      </h3>
+              <a
+                href={selectedSong.pdf_url}
+                target="_blank"
+                className="px-6 py-3 rounded-full border border-[#8799B6] text-[#5a6d8c] hover:bg-[#8799B6]/20 transition"
+              >
+                Descargar Gratis
+              </a>
 
-      <p className="text-white/80 leading-relaxed text-lg text-justify">
-        Puedes descargar este canto gratuitamente.
-        <br />
-        Si deseas apoyar este ministerio con un donativo voluntario,
-        será una bendición para seguir compartiendo música.
-      </p>
-
-      <div className="flex flex-col gap-4">
-
-        <a className="btn"
-        href={selectedSong?.pdf_url}
-        target="_blank"
-        rel="noopener noreferrer"
-         
-          className="px-6 py-3 rounded-full border border-purple-300 text-purple-700 hover:bg-purple-50 transition-all duration-300"
-        >
-          Descargar Gratis
-        </a>
-
-        <button
-  onClick={async () => {
+              <button
+                className="px-6 py-3 rounded-full
+                bg-gradient-to-r from-[#8799B6] to-[#5a6d8c]
+                text-white
+                hover:scale-105
+                transition"
+              
+                  onClick={async () => {
     const res = await fetch("/api/create-checkout-session", {
       method: "POST",
     });
 
     const data = await res.json();
     window.location.href = data.url;
-  }}
-  className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-300 to-purple-400 text-black font-medium hover:scale-105 transition-transform duration-300 shadow-md"
->
-  Hacer Donativo
-</button>
+  }}>
+                Hacer Donativo
+              </button>
 
-      </div>
+            </div>
 
-      <p className="text-white/80 leading-relaxed text-lg text-justify">
-        Gracias por apoyar este proyecto 🙏
-      </p>
-
-    </div>
-  </div>
-)}
+          </motion.div>
+        </div>
+      )}
 
 
 <footer className="mt-24 relative bg-gradient-to-b from-[#8799B6]/20 to-white border-t border-white/40 backdrop-blur-xl">

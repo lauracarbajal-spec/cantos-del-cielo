@@ -34,9 +34,9 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-purple-50 flex items-center justify-center">
+    <main className="relative min-h-screen flex flex-col bg-[#8799B6] px-6 py-3 sm:py-2 overflow-hidden items-center justify-center">
 
-      <div className="bg-white shadow-xl rounded-3xl p-12 w-[90%] max-w-md border border-purple-100">
+      <div className="relative py-20 px-6 from-white to-blue-50 text-center">
 
         <h1 className="text-3xl text-center font-light tracking-wide mb-8 text-gray-800">
           Acceso Ministerio
@@ -73,8 +73,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-full bg-gradient-to-r from-purple-300 to-purple-400 text-black font-medium hover:scale-105 transition"
-          >
+            className="px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition">
             {loading ? "Entrando..." : "Ingresar"}
           </button>
 
