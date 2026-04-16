@@ -37,7 +37,7 @@ data.forEach((song) => {
     }
   }
   return (
-    <main className="relative min-h-screen flex flex-col bg-[#8799B6] px-6 py-3 sm:py-2 overflow-hidden mt-24 sm:mt-32">
+    <main className="relative min-h-screen flex flex-col bg-[#8799B6] px-6 py-3 sm:py-2 overflow-hidden">
 
 <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/20 pointer-events-none"></div>
 
@@ -288,103 +288,125 @@ Con tu apoyo podremos:
 )}
 
 
+<footer className="mt-24 relative bg-gradient-to-b from-[#8799B6]/20 to-white border-t border-white/40 backdrop-blur-xl">
 
-<footer className="mt-32 bg-white/80 backdrop-blur-md border-t border-blue-200">
+  {/* Glow superior elegante */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-white/40 blur-3xl rounded-full opacity-40"></div>
 
-  <div className="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-3 gap-10 text-center md:text-left">
+  <div className="relative max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
 
-    {/* Ministerio */}
+    {/* LOGO + MARCA */}
+    <div className="flex flex-col items-center md:items-start">
+    <div className="relative w-50 h-30 mb-4 flex items-center justify-center">
+
+        {/* Aura */}
+        
+        <Image
+          src="/1-14.png"
+          alt="Cantos del Cielo"
+          fill
+          className="object-contain"
+        />
+      </div>
+
+      
+    </div>
+
+
+    {/* MINISTERIO */}
     <div>
-      <h3 className="text-xl text-[#5a6d8c] mb-4 font-light">
-        Voces en Armonía
+      <h3 className="text-[#5a6d8c] font-semibold mb-4 tracking-wide">
+        Ministerio
       </h3>
 
-      <p className="text-gray-600 leading-relaxed">
-        Ministerio dedicado a compartir música litúrgica para acompañar la
-        oración y las celebraciones de la Iglesia.
+      <p className="text-gray-600 text-sm leading-relaxed">
+        Compartimos música litúrgica que acompaña la oración, la paz interior y
+        la conexión espiritual en cada celebración.
       </p>
     </div>
 
-    {/* Redes sociales */}
+
+    {/* REDES */}
     <div>
-      <h3 className="text-xl text-[#5a6d8c] mb-4 font-light">
-        Síguenos en:
+      <h3 className="text-[#5a6d8c] font-semibold mb-4 tracking-wide">
+        Conecta
       </h3>
 
-      <div className="flex justify-center md:justify-start gap-6 text-gray-600">
+      <div className="flex gap-4">
 
         <a
-          href="https://www.instagram.com/cantos.del.cielo?igsh=emdldzBmN2xtN3Jv&utm_source=qr"
+          href="#"
+          className="p-3 rounded-full bg-white/70 backdrop-blur shadow-md hover:scale-110 hover:shadow-lg transition"
+        >
+          <Facebook className="w-5 h-5 text-[#5a6d8c]" />
+        </a>
+
+        <a
+          href="https://www.instagram.com/cantos.del.cielo"
           target="_blank"
-          className="p-3 rounded-full bg-white hover:bg-[#8799B6]/20 shadow-md hover:scale-110 transition"
-          >
-          <Facebook className="w-5 h-5 text-blue-700" />
-          </a>
+          className="p-3 rounded-full bg-white/70 backdrop-blur shadow-md hover:scale-110 hover:shadow-lg transition"
+        >
+          <Instagram className="w-5 h-5 text-[#5a6d8c]" />
+        </a>
 
         <a
-          href="https://www.instagram.com/cantos.del.cielo?igsh=emdldzBmN2xtN3Jv&utm_source=qr"
+          href="https://www.tiktok.com/@cantos.del.cielo"
           target="_blank"
-          className="p-3 rounded-full bg-white hover:bg-[#8799B6]/20 shadow-md hover:scale-110 transition"
+          className="p-3 rounded-full bg-white/70 backdrop-blur shadow-md hover:scale-110 hover:shadow-lg transition"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-5 h-5 fill-[#5a6d8c]"
           >
-          <Instagram className="w-5 h-5 text-blue-700" />
-          </a>
-
-        <a
-    href="https://www.tiktok.com/@cantos.del.cielo"
-    target="_blank"
-className="p-3 rounded-full bg-white hover:bg-[#8799B6]/20 shadow-md hover:scale-110 transition"
->
-<svg
-xmlns="http://www.w3.org/2000/svg"
-viewBox="0 0 24 24"
-className="w-5 h-5 fill-blue-700"
->
-<path d="M12.5 2c.3 2.2 1.8 4 4 4.5v3.1c-1.4-.1-2.8-.6-4-1.4v6.4c0 3.5-2.8 6.4-6.4 6.4S-.3 18.1-.3 14.6s2.8-6.4 6.4-6.4c.3 0 .6 0 .9.1v3.2c-.3-.1-.6-.1-.9-.1-1.8 0-3.2 1.4-3.2 3.2S4.3 18 6.1 18s3.2-1.4 3.2-3.2V2h3.2z"/>
-</svg>
-  </a>
-
+            <path d="M12.5 2c.3 2.2 1.8 4 4 4.5v3.1c-1.4-.1-2.8-.6-4-1.4v6.4c0 3.5-2.8 6.4-6.4 6.4S-.3 18.1-.3 14.6s2.8-6.4 6.4-6.4c.3 0 .6 0 .9.1v3.2c-.3-.1-.6-.1-.9-.1-1.8 0-3.2 1.4-3.2 3.2S4.3 18 6.1 18s3.2-1.4 3.2-3.2V2h3.2z"/>
+          </svg>
+        </a>
 
         <a
           href="https://www.youtube.com/@Cantosdelcielo-dn"
           target="_blank"
-className="p-3 rounded-full bg-white hover:bg-[#8799B6]/20 shadow-md hover:scale-110 transition"
->
-<Youtube className="w-5 h-5 text-blue-700" />
-</a>
+          className="p-3 rounded-full bg-white/70 backdrop-blur shadow-md hover:scale-110 hover:shadow-lg transition"
+        >
+          <Youtube className="w-5 h-5 text-[#5a6d8c]" />
+        </a>
 
       </div>
     </div>
 
-    {/* Frase */}
+
+    {/* FRASE */}
     <div>
-      <h3 className="text-xl text-[#5a6d8c] mb-4 font-light">
+      <h3 className="text-[#5a6d8c] font-semibold mb-4 tracking-wide">
         Inspiración
       </h3>
 
-
-      <p className="text-gray-600 italic">
+      <p className="text-gray-600 italic text-sm leading-relaxed">
         "El que canta ora dos veces."
       </p>
 
-      <p className="text-gray-400 text-sm mt-2">
+      <p className="text-gray-400 text-xs mt-2">
         — San Agustín
       </p>
     </div>
 
-
- 
-
   </div>
 
-  {/* Línea inferior */}
-  <div className="border-t border-pblue-100 text-center py-6 text-gray-400 text-sm">
 
-    © {new Date().getFullYear()} Voces en Armonía — Ministerio de Música
+  {/* LÍNEA INFERIOR PREMIUM */}
+  <div className="relative border-t border-white/40 py-6 text-center">
+
+    {/* Línea decorativa */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-[2px] bg-gradient-to-r from-transparent via-[#8799B6] to-transparent"></div>
+
+    <p className="text-gray-400 text-sm mt-2">
+      © {new Date().getFullYear()} Cantos del Cielo — Coro católico
+    </p>
 
   </div>
 
 </footer>
 
-    </main>
+  </main>
   );
 }

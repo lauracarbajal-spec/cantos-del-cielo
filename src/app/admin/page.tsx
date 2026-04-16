@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
+import { motion } from "framer-motion";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -11,15 +12,17 @@ const supabase = createClient(
 
 export default function Admin() {
   const router = useRouter();
-
+  const [message, setMessage] = useState("");
   const [songs, setSongs] = useState([]);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [editingSong, setEditingSong] = useState(null);
 const [editTitle, setEditTitle] = useState("");
 const [editCategory, setEditCategory] = useState("");
 const [editFile, setEditFile] = useState(null);
+
   function startEdit(song) {
     setEditingSong(song);
     setEditTitle(song.title);
@@ -27,11 +30,9 @@ const [editFile, setEditFile] = useState(null);
   }
   /*actualizar*/
   async function updateSong() {
-    console.log("Actualizando...");
-  
     if (!editingSong) return;
   
-    let updatedData: any = {
+    let updatedData = {
       title: editTitle,
       category: editCategory,
     };
@@ -44,7 +45,6 @@ const [editFile, setEditFile] = useState(null);
         .upload(fileName, editFile);
   
       if (uploadError) {
-        console.error(uploadError);
         alert(uploadError.message);
         return;
       }
@@ -62,14 +62,23 @@ const [editFile, setEditFile] = useState(null);
       .eq("id", editingSong.id);
   
     if (error) {
-      console.error(error);
       alert(error.message);
       return;
     }
   
+    // ⚡ ACTUALIZACIÓN INSTANTÁNEA
+    setSongs((prev) =>
+      prev.map((song) =>
+        song.id === editingSong.id
+          ? { ...song, ...updatedData }
+          : song
+      )
+    );
+  
     setEditingSong(null);
     setEditFile(null);
-    fetchSongs();
+  
+    setMessage("Canto actualizado ✨");
   }
   async function checkUser() {
     const { data } = await supabase.auth.getUser();
@@ -119,12 +128,16 @@ const [editFile, setEditFile] = useState(null);
           pdf_url: data.publicUrl,
         },
       ]);
+     
+   
   
     if (insertError) {
       console.error(insertError);
       alert(insertError.message);
       return;
     }
+    setMessage("Canto agregado correctamente ✨");
+    setTimeout(() => setMessage(""), 3000);
   
     setTitle("");
     setCategory("");
@@ -132,11 +145,24 @@ const [editFile, setEditFile] = useState(null);
   
     fetchSongs();
   }
+//eliminar
+async function deleteSong(id) {
+  const confirmDelete = confirm("¿Seguro que quieres eliminar este canto?");
+  if (!confirmDelete) return;
 
-  async function deleteSong(id) {
-    await supabase.from("songs").delete().eq("id", id);
-    fetchSongs();
+  const { error } = await supabase
+    .from("songs")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
   }
+
+  setMessage("Canto eliminado 🗑️");
+  fetchSongs();
+}
 
   async function logout() {
     await supabase.auth.signOut();
@@ -152,36 +178,41 @@ const [editFile, setEditFile] = useState(null);
 
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white to-purple-50 p-16">
+    <main className="min-h-screen bg-gradient-to-b from-white via-[#8799B6]/10 to-white px-6 md:px-16 py-16">
 
-      <div className="flex justify-between items-center mb-12">
-        <h1 className="text-4xl font-light text-gray-800">
-          Panel del Ministerio
-        </h1>
+<motion.div
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  className="max-w-6xl mx-auto mb-16 text-center"
+>
+  <h1 className="text-4xl md:text-5xl font-light tracking-wide text-gray-800 mb-6">
+    Panel del Ministerio
+  </h1>
 
-        <button
-          onClick={logout}
-          className="px-5 py-2 border border-purple-400 text-purple-600 rounded-full hover:bg-purple-100 transition"
-        >
-          Cerrar Sesión
-        </button>
-      </div>
+  <button
+    onClick={logout}
+    className="px-6 py-2 rounded-full border border-[#8799B6]/40 text-[#5c6e91] hover:bg-[#8799B6]/10 transition"
+  >
+    Cerrar Sesión
+  </button>
+</motion.div>
 
       {/* FORMULARIO */}
-      <div className="bg-white rounded-3xl p-10 shadow-lg border border-purple-100 mb-16">
+      <div className="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] mb-16">
         <h2 className="text-2xl mb-6 text-gray-700">
           Agregar Nuevo Canto
         </h2>
 
         <div className="space-y-4">
 
-          <input
+          <input 
             type="text"
             placeholder="Título"
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-purple-200 rounded-xl px-4 py-3"
+            className="w-full border border-[#8799B6]/30 rounded-xl px-4 py-3 text-[#5c6e91] bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#8799B6]"
           />
 
           <input
@@ -190,71 +221,110 @@ const [editFile, setEditFile] = useState(null);
             required
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full border border-purple-200 rounded-xl px-4 py-3"
+            className="w-full border border-[#8799B6]/30 rounded-xl px-4 py-3 text-[#5c6e91] bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#8799B6]"
           />
 
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={(e) => setFile(e.target.files[0])}
-            className="w-full"
-          />
+<div
+  onDragOver={(e) => e.preventDefault()}
+  onDrop={(e) => {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile?.type === "application/pdf") {
+      setFile(droppedFile);
+    } else {
+      alert("Solo PDFs");
+    }
+  }}
+  className="border-2 border-dashed border-[#8799B6]/40 rounded-xl p-6 text-center cursor-pointer hover:bg-[#8799B6]/10 transition"
+>
+  {file ? (
+    <p className="text-[#5c6e91]">{file.name}</p>
+  ) : (
+    <p className="text-gray-500">
+      Arrastra tu PDF aquí o haz click
+    </p>
+  )}
+
+  <input
+    type="file"
+    accept="application/pdf"
+    onChange={(e) => setFile(e.target.files[0])}
+    className="hidden"
+  />
+</div>
+{file && (
+  <p className="text-sm text-gray-500 mt-2">
+    Archivo seleccionado: {file.name}
+  </p>
+)}
 
 <button
-  type="button"
   onClick={uploadSong}
-  className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-300 to-purple-400 text-black"
+  disabled={loading}
+  className="px-6 py-3 rounded-full bg-[#8799B6] text-white flex items-center justify-center gap-2 hover:scale-105 transition"
 >
-  Agregar Canto
+  {loading ? (
+    <>
+      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+      Subiendo...
+    </>
+  ) : (
+    "Agregar Canto"
+  )}
 </button>
 
         </div>
       </div>
 
       {/* LISTA */}
-      <div className="bg-white rounded-3xl p-10 shadow-lg border border-purple-100">
+      <div className="max-w-4xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-[0_10px_40px_rgba(0,0,0,0.1)]">
         <h2 className="text-2xl mb-8 text-gray-700">
           Cantos Registrados
         </h2>
 
         <div className="space-y-4">
           {songs.map((song) => (
-            <div
-              key={song.id}
-              className="flex justify-between items-center border-b pb-3"
-            >
+            <motion.div
+            key={song.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3
+            bg-white/80 border border-[#8799B6]/10 rounded-2xl px-5 py-4
+            hover:shadow-lg transition-all duration-300"
+          >
               <div>
-                <p className="font-medium text-gray-800">
-                  {song.title}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {song.category}
-                </p>
-              </div>
+  <p className="font-semibold text-gray-900 tracking-wide">
+    {song.title}
+  </p>
+  <p className="text-sm text-[#5c6e91]">
+    {song.category}
+  </p>
+</div>
 
               <div className="flex gap-4">
 
-  <button
-    onClick={() => startEdit(song)}
-    className="text-purple-600 hover:text-purple-800"
-  >
-    Editar
-  </button>
+              <button 
+  onClick={() => startEdit(song)}
+  className="text-[#8799B6] hover:underline"
+>
+  Editar
+</button>
 
-  <button
-    onClick={() => deleteSong(song.id)}
-    className="text-red-500 hover:text-red-700"
-  >
-    Eliminar
-  </button>
+<button 
+  onClick={() => deleteSong(song.id)}
+  className="text-red-400 hover:text-red-600"
+>
+  Eliminar
+</button>
 
 </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
       {editingSong && (
-  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+ <div className="relative bg-white/80 backdrop-blur-xl border border-white/40 rounded-3xl p-10 max-w-md w-[90%] text-center shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
     <div className="bg-white rounded-3xl p-8 w-[90%] max-w-md shadow-xl">
 
       <h2 className="text-xl mb-6 text-gray-700">
@@ -267,34 +337,36 @@ const [editFile, setEditFile] = useState(null);
           type="text"
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="w-full border border-purple-200 rounded-xl px-4 py-3"
+          className="w-full border border-purple-200 rounded-xl px-4 py-3 text-[#5c6e91]"
         />
 
         <input
           type="text"
           value={editCategory}
           onChange={(e) => setEditCategory(e.target.value)}
-          className="w-full border border-purple-200 rounded-xl px-4 py-3"
+          className="w-full border border-purple-200 rounded-xl px-4 py-3 text-[#5c6e91]"
         />
 
         <input
           type="file"
           accept="application/pdf"
+          className="w-full border border-purple-200 rounded-xl px-4 py-3 text-[#5c6e91]"
           onChange={(e) => setEditFile(e.target.files?.[0] || null)}
         />
 
         <div className="flex justify-between pt-4">
           <button
             onClick={() => setEditingSong(null)}
-            className="px-4 py-2 border border-gray-300 rounded-full"
-          >
+            className="px-6 py-3 rounded-full bg-[#8799B6] text-white flex items-center justify-center gap-2 hover:scale-105 transition"
+>
+          
             Cancelar
           </button>
 
           <button
             onClick={updateSong}
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-300 to-purple-400 text-black"
-          >
+            className="px-6 py-3 rounded-full bg-[#8799B6] text-white flex items-center justify-center gap-2 hover:scale-105 transition"
+            >
             Guardar Cambios
           </button>
         </div>
@@ -302,6 +374,11 @@ const [editFile, setEditFile] = useState(null);
       </div>
 
     </div>
+  </div>
+)}
+{message && (
+  <div className="fixed bottom-6 right-6 bg-[#8799B6] text-white px-6 py-3 rounded-full shadow-lg">
+    {message}
   </div>
 )}
     </main>
