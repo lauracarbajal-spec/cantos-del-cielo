@@ -258,7 +258,7 @@ nos permiten seguir compartiendo música que acerque a más personas a Dios.
   {/* REDES */}
   <div>
     <h3 className="text-[#5a6d8c] font-semibold mb-4 tracking-wide">
-      Conecta
+      Visitanos en:
     </h3>
 
     <div className="flex gap-4">
@@ -304,11 +304,19 @@ nos permiten seguir compartiendo música que acerque a más personas a Dios.
     <div><h3 className="text-[#5a6d8c] font-semibold mb-4 tracking-wide">
     Contáctanos;
     </h3>
-    
-    <p className="text-gray-600 text-sm leading-relaxed"><MessageCircle className="w-5 h-5 text-[#5a6d8c]" />Teléfono / WhatsApp
-+52 (33) 18 48 6644</p>
+  
 <p className="text-gray-600 text-sm leading-relaxed">
 
+
+
+<a
+  href="https://wa.me/51987654321?text=Hola%20me%20interesan%20los%20cantos"
+  target="_blank"
+  className="text-gray-600 text-sm leading-relaxed"
+>
+  <MessageCircle className="w-5 h-5 text-[#5a6d8c]" />Teléfono / WhatsApp
++52 (33) 18 48 6644
+</a>
   
 
 
