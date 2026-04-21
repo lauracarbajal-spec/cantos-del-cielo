@@ -227,20 +227,47 @@ async function deleteSong(id) {
   initial={{ opacity: 0, y: 30 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8 }}
-  className="max-w-6xl mx-auto mb-16 text-center"
+  className="max-w-6xl mx-auto mb-16 flex items-center justify-between"
 >
-  <h1 className="text-4xl md:text-5xl font-light tracking-wide text-gray-800 mb-6">
-    Panel del Ministerio
-  </h1>
 
+  {/* IZQUIERDA */}
+  <div className="flex items-center gap-8">
+    
+    <h1 className="text-2xl md:text-3xl font-light text-gray-800">
+      Administrador
+    </h1>
+
+    <div className="flex items-center gap-6 text-sm text-[#5c6e91]">
+
+      <button
+        onClick={() => router.push("/")}
+        className="relative group"
+      >
+        Inicio
+        <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-[#8799B6] transition-all group-hover:w-full"></span>
+      </button>
+
+      <button
+        onClick={() => router.push("/cantos")}
+        className="relative group"
+      >
+        Cantos
+        <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-[#8799B6] transition-all group-hover:w-full"></span>
+      </button>
+
+    </div>
+
+  </div>
+
+  {/* DERECHA */}
   <button
     onClick={logout}
-    className="px-6 py-2 rounded-full border border-[#8799B6]/40 text-[#5c6e91] hover:bg-[#8799B6]/10 transition"
+    className="text-sm text-red-400 hover:text-red-600 transition"
   >
-    Cerrar Sesión
+    Cerrar sesión
   </button>
-</motion.div>
 
+</motion.div>
       {/* FORMULARIO */}
       <div className="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] mb-16">
         <h2 className="text-2xl mb-6 text-gray-700">
@@ -343,7 +370,12 @@ async function deleteSong(id) {
       {file.name}
     </div>
   )}
-</div>
+</div><button
+  onClick={uploadSong}
+  className="w-full mt-4 px-6 py-3 rounded-xl bg-[#8799B6] text-white font-medium hover:scale-105 hover:shadow-lg transition-all duration-200"
+>
+  Guardar Canto
+</button>
         </div>
 
 
