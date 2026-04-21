@@ -310,7 +310,7 @@ nos permiten seguir compartiendo música que acerque a más personas a Dios.
 
 
 <a
-  href="https://wa.me/51987654321?text=Hola%20me%20interesan%20los%20cantos"
+  href="https://wa.me/523318486644?text=Hola%20me%20interesan%20los%20cantos"
   target="_blank"
   className="text-gray-600 text-sm leading-relaxed"
 >
