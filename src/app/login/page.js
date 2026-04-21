@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -34,50 +35,71 @@ export default function Login() {
   }
 
   return (
-    <main className="relative min-h-screen flex flex-col bg-[#8799B6] px-6 py-3 sm:py-2 overflow-hidden items-center justify-center">
+    <main className="relative min-h-screen flex items-center justify-center bg-[#8799B6] overflow-hidden px-6">
 
-      <div className="relative py-20 px-6 from-white to-blue-50 text-center">
+      {/* Glow fondo */}
+      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-white/20 blur-3xl rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-white/20 blur-3xl rounded-full pointer-events-none"></div>
 
-        <h1 className="text-3xl text-center font-light tracking-wide mb-8 text-gray-800">
-          Acceso Ministerio
+      {/* Card Login */}
+      <div className="glass relative p-10 w-full max-w-md text-center rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+
+        {/* Logo */}
+        <div className="relative w-48 h-32 mx-auto mb-6">
+          <Image
+            src="/1-14.png"
+            alt="Cantos del Cielo"
+            fill
+            className="object-contain"
+          />
+        </div>
+
+        {/* Título */}
+        <h1 className="text-3xl font-light tracking-wide text-white mb-6">
+          Login
         </h1>
 
-        <form onSubmit={handleLogin} className="space-y-6">
+        {/* Formulario */}
+        <form onSubmit={handleLogin} className="space-y-5">
 
-        <input
-  type="email"
-  placeholder="Correo"
-  required
-  className="w-full border border-purple-200 rounded-xl px-4 py-3
-  bg-white
-  text-gray-800
-  placeholder-gray-400
-  focus:outline-none focus:ring-2 focus:ring-purple-300"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-/>
+          <input
+            type="email"
+            placeholder="Correo"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/60 transition"
+          />
 
-<input
-  type="password"
-  placeholder="Contraseña"
-  required
-  className="w-full border border-purple-200 rounded-xl px-4 py-3
-  bg-white
-  text-gray-800
-  placeholder-gray-400
-  focus:outline-none focus:ring-2 focus:ring-purple-300"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-/>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/60 transition"
+          />
 
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-3 sm:py-2 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 transition">
-            {loading ? "Entrando..." : "Ingresar"}
+            className="w-full py-3 rounded-full bg-white text-[#5a6d8c] font-medium hover:scale-105 active:scale-95 transition shadow-md flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <span className="w-4 h-4 border-2 border-[#5a6d8c] border-t-transparent rounded-full animate-spin"></span>
+                Entrando...
+              </>
+            ) : (
+              "Ingresar"
+            )}
           </button>
 
         </form>
+
+        {/* Mensaje bonito abajo */}
+       
+
       </div>
     </main>
   );
