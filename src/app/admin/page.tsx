@@ -29,6 +29,7 @@ const uploadFileRef = useRef(null);
 const editFileRef = useRef(null);
 const [isDraggingEdit, setIsDraggingEdit] = useState(false);
 const [previewUrl, setPreviewUrl] = useState(null);
+const [menuOpen, setMenuOpen] = useState(false);
 
 type SongUpdate = {
   title: string;
@@ -222,52 +223,84 @@ async function deleteSong(id) {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-white via-[#8799B6]/10 to-white px-6 md:px-16 py-16">
-
 <motion.div
   initial={{ opacity: 0, y: 30 }}
   animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.8 }}
-  className="max-w-6xl mx-auto mb-16 flex items-center justify-between"
+  className="max-w-6xl mx-auto mb-10 flex items-center justify-between"
 >
 
-  {/* IZQUIERDA */}
-  <div className="flex items-center gap-8">
-    
-    <h1 className="text-2xl md:text-3xl font-light text-gray-800">
-      Administrador
-    </h1>
+  {/* LOGO / TITULO */}
+  <h1 className="text-2xl md:text-3xl font-light text-gray-800">
+    Panel
+  </h1>
 
-    <div className="flex items-center gap-6 text-sm text-[#5c6e91]">
+  {/* DESKTOP MENU */}
+  <div className="hidden md:flex items-center gap-8 text-sm text-[#5c6e91]">
 
-      <button
-        onClick={() => router.push("/")}
-        className="relative group"
-      >
-        Inicio
-        <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-[#8799B6] transition-all group-hover:w-full"></span>
-      </button>
+    <button onClick={() => router.push("/")} className="relative group">
+      Inicio
+      <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-[#8799B6] group-hover:w-full transition-all"></span>
+    </button>
 
-      <button
-        onClick={() => router.push("/cantos")}
-        className="relative group"
-      >
-        Cantos
-        <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-[#8799B6] transition-all group-hover:w-full"></span>
-      </button>
+    <button onClick={() => router.push("/cantos")} className="relative group">
+      Cantos
+      <span className="absolute left-0 -bottom-1 w-0 h-[1px] bg-[#8799B6] group-hover:w-full transition-all"></span>
+    </button>
 
-    </div>
+    <button onClick={logout} className="text-red-400 hover:text-red-600">
+      Cerrar sesión
+    </button>
 
   </div>
 
-  {/* DERECHA */}
+  {/* MOBILE BUTTON */}
   <button
-    onClick={logout}
-    className="text-sm text-red-400 hover:text-red-600 transition"
+    onClick={() => setMenuOpen(!menuOpen)}
+    className="md:hidden text-2xl text-[#5c6e91]"
   >
-    Cerrar sesión
+    ☰
   </button>
 
 </motion.div>
+{menuOpen && (
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -10 }}
+    className="md:hidden max-w-6xl mx-auto mb-6 bg-white/80 backdrop-blur-xl border border-white/40 rounded-2xl p-4 shadow-lg"
+  >
+    <div className="flex flex-col gap-4 text-[#5c6e91]">
+
+      <button
+        onClick={() => {
+          router.push("/");
+          setMenuOpen(false);
+        }}
+        className="text-left"
+      >
+        Inicio
+      </button>
+
+      <button
+        onClick={() => {
+          router.push("/cantos");
+          setMenuOpen(false);
+        }}
+        className="text-left"
+      >
+        Cantos
+      </button>
+
+      <button
+        onClick={logout}
+        className="text-left text-red-400"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+  </motion.div>
+)}
       {/* FORMULARIO */}
       <div className="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-[0_10px_40px_rgba(0,0,0,0.1)] mb-16">
         <h2 className="text-2xl mb-6 text-gray-700">
