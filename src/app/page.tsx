@@ -191,29 +191,68 @@ nos permiten seguir compartiendo música que acerque a más personas a Dios.
         </button>
       </section>
 
-      {/* MODAL */}
+      {/* MODAL PREMIUM */}
       {open && selectedSong && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-3xl p-8 max-w-sm w-[90%] text-center text-[#5a6d8c]">
-            <h3 className="text-xl mb-4">{selectedSong.title}</h3>
 
-            <a
-              href={selectedSong.pdf_url}
-              target="_blank"
-              className="block mb-4 px-5 py-2 rounded-full border border-[#8799B6] hover:bg-[#8799B6]/20"
-            >
-              Descargar Gratis
-            </a>
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-10 max-w-md w-[90%] text-center shadow-2xl"
+          >
 
             <button
               onClick={() => setOpen(false)}
-              className="text-sm text-gray-400"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl"
             >
-              Cerrar
+              ✕
             </button>
-          </div>
+
+            <h3 className="text-2xl font-light text-[#5a6d8c] mb-4">
+              {selectedSong.title}
+            </h3>
+
+            <p className="text-gray-600 text-sm mb-8">
+              Puedes descargar este canto gratuitamente.
+              Si deseas apoyar este ministerio, puedes hacer un donativo.
+            </p>
+
+            <div className="flex flex-col gap-4">
+
+              <a
+                href={selectedSong.pdf_url}
+                target="_blank"
+                className="px-6 py-3 rounded-full border border-[#8799B6] text-[#5a6d8c] hover:bg-[#8799B6]/20 transition"
+              >
+                Descargar Gratis
+              </a>
+
+              <button
+                className="px-6 py-3 rounded-full
+                bg-gradient-to-r from-[#8799B6] to-[#5a6d8c]
+                text-white
+                hover:scale-105
+                transition"
+              
+                  onClick={async () => {
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+    });
+
+    const data = await res.json();
+    window.location.href = data.url;
+  }}>
+                Hacer Donativo
+              </button>
+
+            </div>
+
+          </motion.div>
         </div>
       )}
+
+
+
 
       {/* FOOTER */}
       
